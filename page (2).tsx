@@ -1,0 +1,2 @@
+import Link from "next/link";import {AppShell} from "@/components/app-shell";import {createClient} from "@/lib/supabase/server";import {KanbanBoard} from "@/components/kanban-board";
+export default async function Kanban(){const supabase=await createClient();const {data}=await supabase.from("applications").select("id,job_title,company_name,status,priority,application_date").order("created_at",{ascending:false});return <AppShell title="Pipeline board" subtitle="Move opportunities through your hiring pipeline."><KanbanBoard initial={data??[]}/></AppShell>}
