@@ -2,35 +2,56 @@
 
 **Organize Your Job Search. Track Your Success.**
 
-ApplyTrack is a full-stack job application tracker built with Next.js, TypeScript, Tailwind CSS and Supabase.
+ApplyTrack is a full-stack job application tracking workspace built with Next.js 15, React 19, TypeScript, Tailwind CSS v4 and Supabase.
 
-## Current status
+## Features
 
-This repository is being initialized. The Supabase backend is already provisioned in Mumbai (`ap-south-1`) and its initial schema and RLS policies have been applied.
+- Email/password sign-up, sign-in and password recovery
+- Protected dashboard with application/interview/follow-up summaries
+- Create and list job applications
+- Drag/drop application pipeline with persisted status updates
+- Company, interview, resume, follow-up and analytics views
+- Supabase PostgreSQL with owner-scoped row-level security
+- Private PDF resume storage bucket (5 MB limit)
 
-## Stack
+Some entity screens are currently read-only; create/edit/delete flows for interviews, companies, resumes and follow-ups remain to be completed. This is an initial usable foundation, not yet certified production-ready.
 
-- Next.js App Router, React and TypeScript
-- Tailwind CSS v4
-- Supabase Auth, PostgreSQL and private Storage
+## Tech stack
 
-## Setup
+- Next.js App Router, React, TypeScript
+- Tailwind CSS v4, Lucide React
+- Supabase Auth, PostgreSQL, Storage
+
+## Local development
 
 1. Install Node.js 20.9+.
 2. Run `npm install`.
-3. Copy `.env.example` to `.env.local` and configure the Supabase publishable key.
-4. Run `npm run dev`.
+3. Copy `.env.example` to `.env.local`.
+4. Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to the Supabase project URL and publishable key.
+5. Run `npm run dev` and open `http://localhost:3000`.
 
 Never commit `.env.local`, service-role keys, database passwords or tokens.
 
-## Backend
+## Supabase backend
 
-Project URL: `https://hzqwsebqjpjfycxdsgkh.supabase.co` (Mumbai, `ap-south-1`). Initial SQL migrations will be checked in under `supabase/migrations`.
+Project URL: https://hzqwsebqjpjfycxdsgkh.supabase.co  
+Region: Mumbai (`ap-south-1`).
+
+The dedicated Supabase project has the eight application tables and RLS enabled. Keep migrations in `supabase/migrations`. The browser app must use only the publishable/anon key; all access is constrained by RLS.
 
 ## Deployment
 
-Connect this repository to Vercel and add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` as environment variables. Do not expose service-role credentials in the browser.
+The project is configured for Vercel Git deployment. Set the two public Supabase variables in Vercel for Production, Preview and Development. Configure Supabase Auth Site URL and redirect URLs to the Vercel domain before testing email verification and password reset. Run CI and live auth/data smoke tests before marking production-ready.
 
-## Production readiness
+## Roadmap before production
 
-Features and checks will be documented as they are implemented. The project must not be considered production-ready until CRUD workflows, authorization checks, automated tests, Auth redirect configuration and live smoke tests are complete.
+- Full application detail/edit/delete, search, filters, pagination and CSV export
+- Company CRUD and linking UX
+- Interview create/edit/cancel and calendar view
+- Resume upload/download/delete UI
+- Follow-up create/complete UI and notification scheduling
+- Rich analytics charts and filters
+- Profile editing, avatar and preferences
+- Automated unit, integration, accessibility and E2E tests
+- Cross-record ownership checks for interview/follow-up foreign keys
+- End-to-end auth redirect and deployment smoke tests
